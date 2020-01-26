@@ -16,19 +16,21 @@ import static ru.mail.dimaushenko.constants.PropertyConstants.SQL_REQUEST_INSERT
 import static ru.mail.dimaushenko.constants.PropertyConstants.SQL_REQUEST_SELECT_ALL_USERS;
 import static ru.mail.dimaushenko.constants.PropertyConstants.SQL_REQUEST_REMOVE_USER_BY_ID;
 import static ru.mail.dimaushenko.constants.PropertyConstants.SQL_REQUEST_UPDATE_USER;
-
 import static ru.mail.dimaushenko.constants.PropertyConstants.SQL_COLUMN_USER_ID;
 import static ru.mail.dimaushenko.constants.PropertyConstants.SQL_COLUMN_USER_USERNAME;
 import static ru.mail.dimaushenko.constants.PropertyConstants.SQL_COLUMN_USER_PASSWORD;
 import static ru.mail.dimaushenko.constants.PropertyConstants.SQL_COLUMN_USER_IS_ACTIVE;
 import static ru.mail.dimaushenko.constants.PropertyConstants.SQL_COLUMN_USER_AGE;
+import static ru.mail.dimaushenko.constants.PropertyConstants.SQL_REQUEST_IS_USER_FOUND_BY_ID;
 
 public class UserRepositoryImpl extends GeneralRepositoryImpl<User> implements UserRepository {
 
     private static UserRepository instance = null;
 
-    private UserRepositoryImpl() {
+    private final PropertyUtil propertyUtil;
 
+    private UserRepositoryImpl() {
+        propertyUtil = PropertyUtilConstantsImpl.getInstance();
     }
 
     public static UserRepository getInstance() {
@@ -38,15 +40,13 @@ public class UserRepositoryImpl extends GeneralRepositoryImpl<User> implements U
         return instance;
     }
 
-    private final PropertyUtil propertyUtil = PropertyUtilConstantsImpl.getInstance();
-
     @Override
-    public void addEntity(Connection connection, User t) throws SQLException {
+    public void addEntity(Connection connection, User user) throws SQLException {
         try (PreparedStatement statement = connection.prepareCall(propertyUtil.getProperty(SQL_REQUEST_INSERT_USER))) {
-            statement.setString(1, t.getUsername());
-            statement.setString(2, t.getPassword());
-            statement.setBoolean(3, t.isIsActive());
-            statement.setInt(4, t.getAge());
+            statement.setString(1, user.getUsername());
+            statement.setString(2, user.getPassword());
+            statement.setBoolean(3, user.isIsActive());
+            statement.setInt(4, user.getAge());
             statement.execute();
         }
     }
@@ -70,9 +70,9 @@ public class UserRepositoryImpl extends GeneralRepositoryImpl<User> implements U
     }
 
     @Override
-    public boolean removeEntity(Connection connection, User t) throws SQLException {
+    public boolean removeEntity(Connection connection, Integer id) throws SQLException {
         try (PreparedStatement statement = connection.prepareCall(propertyUtil.getProperty(SQL_REQUEST_REMOVE_USER_BY_ID))) {
-            statement.setInt(1, t.getId());
+            statement.setInt(1, id);
             if (statement.executeUpdate() == 1) {
                 return true;
             }
@@ -81,15 +81,28 @@ public class UserRepositoryImpl extends GeneralRepositoryImpl<User> implements U
     }
 
     @Override
-    public void updateEntity(Connection connection, User t) throws SQLException {
+    public void updateEntity(Connection connection, User user) throws SQLException {
         try (PreparedStatement statement = connection.prepareCall(propertyUtil.getProperty(SQL_REQUEST_UPDATE_USER))) {
-            statement.setString(1, t.getUsername());
-            statement.setString(2, t.getPassword());
-            statement.setBoolean(3, t.isIsActive());
-            statement.setInt(4, t.getAge());
-            statement.setInt(5, t.getId());
+            statement.setString(1, user.getUsername());
+            statement.setString(2, user.getPassword());
+            statement.setBoolean(3, user.isIsActive());
+            statement.setInt(4, user.getAge());
+            statement.setInt(5, user.getId());
             statement.execute();
         }
+    }
+
+    @Override
+    public boolean isEntityFoundById(Connection connection, Integer id) throws SQLException {
+        try (PreparedStatement statement = connection.prepareCall(propertyUtil.getProperty(SQL_REQUEST_IS_USER_FOUND_BY_ID))) {
+            statement.setInt(1, id);
+            try (ResultSet result = statement.executeQuery()) {
+                if (result.next()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private User getUserGroup(Connection connection, ResultSet result) throws SQLException {

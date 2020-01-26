@@ -1,17 +1,23 @@
 package ru.mail.dimaushenko.service;
 
 import java.util.List;
+
+import ru.mail.dimaushenko.service.model.AddUserDTO;
 import ru.mail.dimaushenko.service.model.FullUserDTO;
 import ru.mail.dimaushenko.service.model.UserDTO;
 
 public interface UserService {
 
-    public List<UserDTO> getAll();
+    public void addUser(AddUserDTO addUserDTO);
 
-    public List<FullUserDTO> getAllFull();
+    public List<UserDTO> getAllUser();
 
-    public boolean removeUser(FullUserDTO userDTO);
+    public List<FullUserDTO> getAllFullUser();
+
+    public boolean removeUser(Integer id);
 
     public void updateUser(FullUserDTO userDTO);
+
+    public boolean isUserFoundById(Integer id);
 
 }

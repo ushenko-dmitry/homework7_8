@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import ru.mail.dimaushenko.repository.ConnectionPool;
 
 import static ru.mail.dimaushenko.constants.PropertyFiles.HIKARI_MYSQL_PROPERTIES;
@@ -18,7 +19,7 @@ public class ConnectionPoolMysqlImpl implements ConnectionPool {
 
     private static ConnectionPool instance = null;
     private HikariDataSource ds = null;
-    private final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
+    private final Logger logger = LogManager.getLogger(MethodHandles.lookup().lookupClass());
 
     private ConnectionPoolMysqlImpl() {
     }
@@ -33,6 +34,11 @@ public class ConnectionPoolMysqlImpl implements ConnectionPool {
     @Override
     public Connection getConnection() throws SQLException {
         if (ds == null){
+            try{
+                Class.forName("com.mysql.jdbc.Driver");
+            } catch (ClassNotFoundException ex) {
+                logger.error(ex.getMessage(), ex);
+            }
             try {
                 InputStream propertiesStream = getClass().getClassLoader().getResourceAsStream(HIKARI_MYSQL_PROPERTIES);
                 Properties properties = new Properties();
@@ -40,7 +46,7 @@ public class ConnectionPoolMysqlImpl implements ConnectionPool {
                 HikariConfig config = new HikariConfig(properties);
                 ds = new HikariDataSource(config);
             } catch (IOException ex) {
-                LOGGER.error(ex.getMessage(), ex);
+                logger.error(ex.getMessage(), ex);
             }
         }
         return ds.getConnection();

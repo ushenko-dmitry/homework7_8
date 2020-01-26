@@ -12,8 +12,10 @@ public interface GeneralRepository<T> {
 
     public List<T> getAll(Connection connection) throws SQLException;
 
-    public boolean removeEntity(Connection connection, T t) throws SQLException;
+    public boolean removeEntity(Connection connection, Integer id) throws SQLException;
 
     public void updateEntity(Connection connection, T t) throws SQLException;
+
+    public boolean isEntityFoundById(Connection connection, Integer id) throws SQLException;
 
 }

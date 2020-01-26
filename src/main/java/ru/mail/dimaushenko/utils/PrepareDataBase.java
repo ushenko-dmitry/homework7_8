@@ -33,7 +33,7 @@ public class PrepareDataBase {
     private final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
     private final PropertyUtil propertyUtil = PropertyUtilConstantsImpl.getInstance();
 
-    private final String DATABASE_NAME = "jd2_homework5_6";
+    private final String DATABASE_NAME = "jd2_homework7_8";
 
     private final String SQL_REQUEST_SHOW_DB = "SHOW DATABASES;";
     private final String SQL_REQUEST_DROP_DB = "DROP DATABASE " + DATABASE_NAME + ";";

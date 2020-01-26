@@ -3,5 +3,52 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+    <display-name>Archetype Created Web Application</display-name>
+  
+    <servlet>
+        <servlet-name>StartServlet</servlet-name>
+        <servlet-class>ru.mail.dimaushenko.controller.StartServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StartServlet</servlet-name>
+        <url-pattern>/start</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>CreateUserServlet</servlet-name>
+        <servlet-class>ru.mail.dimaushenko.controller.CreateUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CreateUserServlet</servlet-name>
+        <url-pattern>/createUser</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ViewAllUserServlet</servlet-name>
+        <servlet-class>ru.mail.dimaushenko.controller.ViewAllUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewAllUserServlet</servlet-name>
+        <url-pattern>/viewUsers</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>UpdateUserAddressServlet</servlet-name>
+        <servlet-class>ru.mail.dimaushenko.controller.UpdateUserAddressServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateUserAddressServlet</servlet-name>
+        <url-pattern>/updateUserAddress</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>RemoveUserServlet</servlet-name>
+        <servlet-class>ru.mail.dimaushenko.controller.RemoveUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RemoveUserServlet</servlet-name>
+        <url-pattern>/removeUserById</url-pattern>
+    </servlet-mapping>
+            
 </web-app>

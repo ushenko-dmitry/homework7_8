@@ -27,6 +27,7 @@
         <mysql.connector.version>8.0.18</mysql.connector.version>
         <hikari_cp.version>3.4.1</hikari_cp.version>
         <log4j-slf4j-impl.version>2.13.0</log4j-slf4j-impl.version>
+        <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
     </properties>
 
     <dependencies>
@@ -60,6 +61,11 @@
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
             <version>${hikari_cp.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${javax.servlet-api.version}</version>
         </dependency>
     </dependencies>
 

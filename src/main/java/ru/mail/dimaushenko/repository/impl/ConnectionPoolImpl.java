@@ -19,7 +19,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
 
     private static ConnectionPool instance = null;
     private HikariDataSource ds = null;
-    private final Logger LOGGER = LogManager.getLogger(MethodHandles.lookup().lookupClass());
+    private final Logger logger = LogManager.getLogger(MethodHandles.lookup().lookupClass());
 
     private ConnectionPoolImpl() {
     }
@@ -34,6 +34,11 @@ public class ConnectionPoolImpl implements ConnectionPool {
     @Override
     public Connection getConnection() throws SQLException {
         if (ds == null) {
+            try{
+                Class.forName("com.mysql.jdbc.Driver");
+            } catch (ClassNotFoundException ex) {
+                logger.error(ex.getMessage(), ex);
+            }
             try {
                 InputStream propertiesStream = getClass().getClassLoader().getResourceAsStream(HIKARI_HOMEWORK_5_6_PROPERTIES);
                 Properties properties = new Properties();
@@ -41,7 +46,7 @@ public class ConnectionPoolImpl implements ConnectionPool {
                 HikariConfig config = new HikariConfig(properties);
                 ds = new HikariDataSource(config);
             } catch (IOException ex) {
-                LOGGER.error(ex.getMessage(), ex);
+                logger.error(ex.getMessage(), ex);
             }
         }
         return ds.getConnection();

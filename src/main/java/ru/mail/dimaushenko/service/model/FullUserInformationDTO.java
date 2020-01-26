@@ -1,6 +1,6 @@
-package ru.mail.dimaushenko.repository.model;
+package ru.mail.dimaushenko.service.model;
 
-public class UserInformation {
+public class FullUserInformationDTO {
 
     private Integer userId;
     private String addres;

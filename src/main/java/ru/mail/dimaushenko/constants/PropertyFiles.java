@@ -7,4 +7,6 @@ public class PropertyFiles {
     public static final String TASK_PROPERTIES = "task.properties";
     public static final String CONSTANTS_PROPERTY = "constants.properties";
 
+    private PropertyFiles() {
+    }
 }
